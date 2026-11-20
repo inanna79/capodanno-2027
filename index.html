@@ -103,8 +103,8 @@ body{min-height:100svh;display:flex;align-items:center;justify-content:center;pa
  const palette=['#641f35','#762d40','#96384b','#a7444e','#b88b50','#c39a5b','#d0ad75'];
  function resize(){const r=canvas.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);w=r.width;h=r.height;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
  function launch(){const x=w*(.16+Math.random()*.68),targetY=h*(.16+Math.random()*.38);rockets.push({x,y:h+5,vx:(Math.random()-.5)*.55,vy:-(3.1+Math.random()*1.1),targetY,color:palette[Math.floor(Math.random()*palette.length)],trail:[]})}
- function burst(x,y,color){const n=34+Math.floor(Math.random()*22);for(let i=0;i<n;i++){const a=Math.PI*2*i/n+(Math.random()-.5)*.12,s=.65+Math.random()*2.05;sparks.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:55+Math.random()*38,max:93,size:.8+Math.random()*2.1,color:Math.random()<.72?color:palette[Math.floor(Math.random()*palette.length)],wobble:Math.random()*6.28})}}
-function drawSpark(p,a){
+ function burst(x,y,color){const n=34+Math.floor(Math.random()*22);for(let i=0;i<n;i++){const a=Math.PI*2*i/n+(Math.random()-.5)*.12,s=.65+Math.random()*2.05;const sparkle=Math.random()<.16;sparks.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:55+Math.random()*38,max:93,size:.8+Math.random()*2.1,color:Math.random()<.72?color:palette[Math.floor(Math.random()*palette.length)],wobble:Math.random()*6.28,sparkle,sparkColor:Math.random()<.75?'#f5dca8':'#fffaf0'})}}
+ function drawSpark(p,a){
  ctx.save();
 
  // Alone morbido originale
@@ -122,15 +122,15 @@ function drawSpark(p,a){
  ctx.beginPath();
  ctx.ellipse(p.x,p.y,p.size,p.size*(1.1+Math.sin(p.wobble)*.25),p.wobble*.1,0,Math.PI*2);
  ctx.fill();
-
- // Piccola scintilla bianco caldo, solo su alcune particelle
- if(Math.random()<.13){
-  ctx.globalAlpha=a*.65;
-  ctx.fillStyle='#fffaf0';
-  ctx.beginPath();
-  ctx.arc(p.x,p.y,Math.max(.45,p.size*.42),0,Math.PI*2);
-  ctx.fill();
- }
+  
+// Scintilla oro champagne e bianco avorio
+if(p.sparkle){
+ ctx.globalAlpha=a*(.65+.25*Math.sin(p.wobble*2));
+ ctx.fillStyle=p.sparkColor;
+ ctx.beginPath();
+ ctx.arc(p.x,p.y,Math.max(.65,p.size*.65),0,Math.PI*2);
+ ctx.fill();
+}
 
  ctx.restore();
 } function frame(t){if(!last)last=t;const dt=Math.min(2,(t-last)/16.67);last=t;elapsed+=dt;ctx.clearRect(0,0,w,h);
