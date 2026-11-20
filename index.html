@@ -79,12 +79,18 @@ body{min-height:100svh;display:flex;align-items:center;justify-content:center;pa
 (()=>{
   const scene=document.querySelector('.scene');
  const images=['copertina-capodanno.webp','interno-capodanno.webp','sigillo-capodanno.webp'];
- Promise.all(images.map(src=>new Promise(resolve=>{
+
+ Promise.all(images.map(src=>{
   const img=new Image();
-  img.onload=resolve;
-  img.onerror=resolve;
   img.src=src;
- }))).then(()=>scene.classList.add('ready'));
+  return img.decode();
+ })).then(()=>{
+  requestAnimationFrame(()=>{
+   requestAnimationFrame(()=>{
+    scene.classList.add('ready');
+   });
+  });
+ });
  const book=document.getElementById('book'),button=document.getElementById('openButton'),hint=document.getElementById('hint');
  let opened=false;
  button.addEventListener('click',()=>{
