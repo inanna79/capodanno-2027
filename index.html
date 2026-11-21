@@ -93,8 +93,8 @@ body{min-height:100svh;display:flex;align-items:center;justify-content:center;pa
  let opened=false;
  button.addEventListener('click',()=>{
   if(opened)return;opened=true;book.classList.add('breaking');button.setAttribute('aria-label','Il sigillo si è rotto');hint.textContent='';
-  window.setTimeout(()=>{book.classList.add('open');window.setTimeout(startFireworks,4000)},520); });
- const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d');
+  window.setTimeout(()=>{book.classList.add('open');window.setTimeout(startFireworks,3000)},520);
+  const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d');
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  let w=0,h=0,dpr=1,rockets=[],sparks=[],last=0,nextLaunch=0,elapsed=0,raf=0,running=false;
  const palette=['#641f35','#762d40','#96384b','#a7444e','#b88b50','#c39a5b','#d0ad75'];
